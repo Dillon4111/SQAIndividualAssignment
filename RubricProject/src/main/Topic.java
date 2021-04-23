@@ -11,6 +11,10 @@ public class Topic {
 
     }
 
+    public Topic(String topicName) {
+        this.topicName = topicName;
+    }
+
     public Topic(String topicName, ArrayList<Rubric> rubrics) {
         this.topicName = topicName;
         this.rubrics = rubrics;
@@ -32,11 +36,14 @@ public class Topic {
         this.rubrics = rubrics;
     }
 
+    public void addRubric(Rubric rubric) {
+        rubrics.add(rubric);
+    }
+
     @Override
     public String toString() {
-        return "Topic{" +
-                "topicName='" + topicName + '\'' +
-                ", rubrics=" + rubrics +
-                '}';
+        return
+                "TopicName='" + topicName + '\'' +
+                ", Rubrics=" + rubrics;
     }
 }
