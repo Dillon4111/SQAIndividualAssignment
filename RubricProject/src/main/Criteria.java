@@ -31,9 +31,8 @@ public class Criteria {
 
     @Override
     public String toString() {
-        return "Criteria{" +
+        return
                 "criteriaName='" + criteriaName + '\'' +
-                ", score=" + score +
-                '}';
+                ", score=" + score;
     }
 }
