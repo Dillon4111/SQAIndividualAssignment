@@ -4,23 +4,23 @@ import java.util.ArrayList;
 
 public class Rubric {
 
-    private Student student;
+    private String studentName;
     private ArrayList<Criteria> criteria = new ArrayList<>();
 
     public Rubric() {
     }
 
-    public Rubric(Student student, ArrayList<Criteria> criteria) {
-        this.student = student;
+    public Rubric(String studentName, ArrayList<Criteria> criteria) {
+        this.studentName = studentName;
         this.criteria = criteria;
     }
 
-    public Student getStudent() {
-        return student;
+    public String getStudentName() {
+        return studentName;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 
     public ArrayList<Criteria> getCriteria() {
@@ -31,11 +31,14 @@ public class Rubric {
         this.criteria = criteria;
     }
 
+    public void addCriteria(Criteria criteria) {
+        this.criteria.add(criteria);
+    }
+
     @Override
     public String toString() {
-        return "Rubric{" +
-                "student=" + student +
-                ", criteria=" + criteria +
-                '}';
+        return
+                "Student=" + studentName +
+                ", Criteria=" + criteria;
     }
 }

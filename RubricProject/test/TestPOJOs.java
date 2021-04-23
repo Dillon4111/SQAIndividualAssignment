@@ -37,7 +37,7 @@ public class TestPOJOs {
         criterion.add(criteria);
         criterion.add(criteria2);
 
-        Rubric rubric = new Rubric(student, criterion);
+        Rubric rubric = new Rubric(student.getStudentName(), criterion);
 
         assert
                 rubric.getCriteria().get(0) == criteria;
@@ -62,8 +62,8 @@ public class TestPOJOs {
         ArrayList<Criteria> criterion2 = new ArrayList<>();
         criterion2.add(criteria3);
 
-        Rubric rubric = new Rubric(student, criterion);
-        Rubric rubric2 = new Rubric(student2, criterion2);
+        Rubric rubric = new Rubric(student.getStudentName(), criterion);
+        Rubric rubric2 = new Rubric(student2.getStudentName(), criterion2);
 
         ArrayList<Rubric> rubrics = new ArrayList<>();
         rubrics.add(rubric);
@@ -72,9 +72,9 @@ public class TestPOJOs {
         Topic topic = new Topic("English", rubrics);
 
         assert
-                topic.getRubrics().get(0).getStudent().getStudentName().equals("Dillon Rochford");
+                topic.getRubrics().get(0).getStudentName().equals("Dillon Rochford");
         assert
-                topic.getRubrics().get(1).getStudent().getStudentName().equals("John Pope");
+                topic.getRubrics().get(1).getStudentName().equals("John Pope");
 
     }
 }
