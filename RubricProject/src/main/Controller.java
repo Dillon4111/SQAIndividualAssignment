@@ -22,6 +22,14 @@ public class Controller {
                 case 2:
                     createRubric();
                     break;
+                case 3:
+                    addCriteriaToRubric();
+                    break;
+                case 4:
+                    listAllTopics();
+                    break;
+                case 5:
+                    getRubricsByName();
             }
 
             displayMenu();
@@ -98,6 +106,66 @@ public class Controller {
                 break;
             }
         }
+        if(!found) {
+            System.out.println("No topic was found");
+        }
+    }
+
+    public void addCriteriaToRubric() {
+        System.out.println("Please enter topic name");
+        String topicName = scan.next();
+
+        boolean found = false;
+
+        for(Topic topic: topics) {
+            if(topic.getTopicName().equalsIgnoreCase(topicName)) {
+                found = true;
+
+                System.out.println("Please enter student name");
+                String studentName = scan.next();
+
+                for(Rubric rubric: topic.getRubrics()) {
+                    if(rubric.getStudentName().equalsIgnoreCase(studentName)) {
+                        System.out.println("Please name for new criteria");
+                        String critName = scan.next();
+
+                        System.out.println("Please score for new criteria");
+                        int critScore = scan.nextInt();
+
+                        Criteria criteria = new Criteria(critName, critScore);
+                        rubric.addCriteria(criteria);
+
+                        break;
+                    }
+                }
+            }
+
+            break;
+        }
+    }
+
+    public void listAllTopics() {
+        for(Topic t: topics) {
+            System.out.println(t.getTopicName());
+        }
+    }
+
+    public void getRubricsByName() {
+        System.out.println("Please enter topic name");
+        String topicName = scan.next();
+
+        boolean found = false;
+
+        for(Topic topic: topics) {
+            if (topic.getTopicName().equalsIgnoreCase(topicName)) {
+                found = true;
+
+                for (Rubric r : topic.getRubrics()) {
+                    System.out.println(r.toString());
+                }
+            }
+        }
+
         if(!found) {
             System.out.println("No topic was found");
         }
