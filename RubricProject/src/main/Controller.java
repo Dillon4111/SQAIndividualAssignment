@@ -5,8 +5,8 @@ import java.util.Scanner;
 
 public class Controller {
 
-    private Scanner scan = new Scanner(System.in);
-    private ArrayList<Topic> topics = new ArrayList<>();
+    private final Scanner scan = new Scanner(System.in);
+    private final ArrayList<Topic> topics = new ArrayList<>();
 
     public Controller() {
         int i = 1;
@@ -16,20 +16,12 @@ public class Controller {
             i = scan.nextInt();
 
             switch (i) {
-                case 1:
-                    createTopic();
-                    break;
-                case 2:
-                    createRubric();
-                    break;
-                case 3:
-                    addCriteriaToRubric();
-                    break;
-                case 4:
-                    listAllTopics();
-                    break;
-                case 5:
-                    getRubricsByName();
+                case 1 -> createTopic();
+                case 2 -> createRubric();
+                case 3 -> addCriteriaToRubric();
+                case 4 -> updateStudentCriteria();
+                case 5 -> listAllTopics();
+                case 6 -> getRubricsByName();
             }
 
             displayMenu();
@@ -45,8 +37,9 @@ public class Controller {
         System.out.println("1. Create Topic");
         System.out.println("2. Create Rubric for Topic");
         System.out.println("3. Add Criteria to Rubric");
-        System.out.println("4. Get List of Topics");
-        System.out.println("5. Get Rubrics by Name");
+        System.out.println("4. Update Student Criteria Score");
+        System.out.println("5. Get List of Topics");
+        System.out.println("6. Get Rubrics by Name");
     }
 
     public void createTopic() {
@@ -94,15 +87,15 @@ public class Controller {
 
                     System.out.println("Please enter score of criteria");
                     int criteriaScore = scan.nextInt();
-                    
+
                     Criteria criteria = new Criteria(criteriaName, criteriaScore);
                     criterion = new ArrayList<>();
                     criterion.add(criteria);
                 }
-                
+
                 Rubric rubric = new Rubric(studentName, criterion);
                 topic.addRubric(rubric);
-                
+
                 break;
             }
         }
@@ -139,8 +132,10 @@ public class Controller {
                     }
                 }
             }
-
             break;
+        }
+        if(!found) {
+            System.out.println("No topic was found \n");
         }
     }
 
@@ -168,6 +163,54 @@ public class Controller {
 
         if(!found) {
             System.out.println("No topic was found");
+        }
+    }
+
+    public void updateStudentCriteria() {
+        System.out.println("Please enter topic name");
+        String topicName = scan.next();
+
+        boolean found = false;
+        boolean foundCriteria = false;
+
+        for (Topic topic : topics) {
+            if (topic.getTopicName().equalsIgnoreCase(topicName)) {
+                found = true;
+
+                System.out.println("Please enter student name");
+                String studentName = scan.next();
+
+                for (Rubric rubric : topic.getRubrics()) {
+                    if (rubric.getStudentName().equalsIgnoreCase(studentName)) {
+                        System.out.println("Please name of criteria");
+                        String critName = scan.next();
+
+                        for(Criteria c: rubric.getCriteria()) {
+                            if(c.getCriteriaName().equalsIgnoreCase(critName)) {
+
+                                System.out.println("Please update score for criteria");
+                                int critScore = scan.nextInt();
+
+                                int index = rubric.getCriteria().indexOf(c);
+                                rubric.getCriteria().get(index).setScore(critScore);
+
+                                foundCriteria = true;
+
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+            break;
+        }
+
+        if(!found) {
+            System.out.println("No topic was found \n");
+        }
+        if (foundCriteria) {
+            System.out.println("Criteria updated \n");
         }
     }
 
