@@ -22,6 +22,8 @@ public class Controller {
                 case 4 -> updateStudentCriteria();
                 case 5 -> listAllTopics();
                 case 6 -> getRubricsByName();
+                case 7 -> studentRubricSummary();
+                case 8 -> getSummaryOfCriteria();
             }
 
             displayMenu();
@@ -40,6 +42,8 @@ public class Controller {
         System.out.println("4. Update Student Criteria Score");
         System.out.println("5. Get List of Topics");
         System.out.println("6. Get Rubrics by Name");
+        System.out.println("7. Get Summary of Student Rubric");
+        System.out.println("8. Get Summary of Criteria");
     }
 
     public void createTopic() {
@@ -214,7 +218,158 @@ public class Controller {
         }
     }
 
-    public int add(int a, int b) {
-        return a + b;
+    public void studentRubricSummary() {
+        System.out.println("Please enter topic name");
+        String topicName = scan.next();
+
+        boolean found = false;
+
+        for (Topic topic : topics) {
+            if (topic.getTopicName().equalsIgnoreCase(topicName)) {
+                found = true;
+
+                System.out.println("Please enter student name");
+                String studentName = scan.next();
+
+                for (Rubric rubric : topic.getRubrics()) {
+                    if (rubric.getStudentName().equalsIgnoreCase(studentName)) {
+
+                        ArrayList<Criteria> criteria = rubric.getCriteria();
+
+                        int average = getAverage(criteria);
+                        double stdDev = getStandardDev(criteria);
+                        Criteria minimumCriteria = getMinimum(criteria);
+                        Criteria maxCriteria = getMax(criteria);
+
+                        System.out.println("Student Summary: " + studentName);
+                        System.out.println("Average: " + average);
+                        System.out.println("Standard Deviation: " + stdDev);
+                        System.out.println("Minimum Criteria: " + minimumCriteria.getCriteriaName()
+                                                + ", " + minimumCriteria.getScore());
+                        System.out.println("Maximum Criteria: " + maxCriteria.getCriteriaName()
+                                + ", " + maxCriteria.getScore());
+
+                        break;
+                    }
+                }
+            }
+            break;
+        }
+
+        if(!found) {
+            System.out.println("No topic was found \n");
+        }
+    }
+
+    public int getAverage(ArrayList<Criteria> criteria) {
+
+        double sum = 0;
+
+        for(Criteria c : criteria) {
+            sum += c.getScore();
+        }
+
+        double average = sum / (double) criteria.size();
+
+        return (int) Math.ceil(average);
+    }
+
+    public double getStandardDev(ArrayList<Criteria> criteria) {
+
+        double mean;
+        double sum = 0;
+        double n = criteria.size();
+
+        for(Criteria c : criteria) {
+            sum += c.getScore();
+        }
+
+        mean = sum / (double) criteria.size();
+
+        sum = 0;
+
+        for(Criteria c: criteria) {
+            sum+=Math.pow((c.getScore()-mean),2);
+        }
+
+        mean=sum/(n-1);
+
+        return Math.sqrt(mean);
+    }
+
+    public Criteria getMinimum(ArrayList<Criteria> criterion) {
+        int minimum = criterion.get(0).getScore();
+        Criteria criteria = criterion.get(0);
+
+        for(Criteria c: criterion) {
+            if(c.getScore() < minimum) {
+                minimum = c.getScore();
+
+                criteria = c;
+            }
+        }
+
+        return criteria;
+    }
+
+    public Criteria getMax(ArrayList<Criteria> criterion) {
+        int max = criterion.get(0).getScore();
+        Criteria criteria = criterion.get(0);
+
+        for(Criteria c: criterion) {
+            if(c.getScore() > max) {
+                max = c.getScore();
+
+                criteria = c;
+            }
+        }
+
+        return criteria;
+    }
+
+    public void getSummaryOfCriteria() {
+        System.out.println("Please enter topic name");
+        String topicName = scan.next();
+
+        ArrayList<Criteria> criteriaList = new ArrayList<>();
+
+        String criteriaName = null;
+
+        boolean found = false;
+
+        for (Topic topic : topics) {
+            if (topic.getTopicName().equalsIgnoreCase(topicName)) {
+                found = true;
+
+                System.out.println("Please enter criteria name");
+                criteriaName = scan.next();
+
+                for (Rubric rubric : topic.getRubrics()) {
+                   for(Criteria c: rubric.getCriteria()) {
+                       if(c.getCriteriaName().equalsIgnoreCase(criteriaName)) {
+                           criteriaList.add(c);
+                       }
+                   }
+                }
+                break;
+            }
+        }
+
+        int average = getAverage(criteriaList);
+        double stdDev = getStandardDev(criteriaList);
+        Criteria minimumCriteria = getMinimum(criteriaList);
+        Criteria maxCriteria = getMax(criteriaList);
+
+        System.out.println("Criteria Summary: " + criteriaName);
+        System.out.println("Average: " + average);
+        System.out.println("Standard Deviation: " + stdDev);
+        System.out.println("Minimum Score: " + minimumCriteria.getCriteriaName()
+                + ", " + minimumCriteria.getScore());
+        System.out.println("Maximum Score: " + maxCriteria.getCriteriaName()
+                + ", " + maxCriteria.getScore());
+
+        if(!found) {
+            System.out.println("No topic was found \n");
+        }
     }
 }
