@@ -12,7 +12,7 @@ public class TestController {
         Controller controller = new Controller();
 
         assert
-                controller.getAverageOfRubric(criteria) == 3;
+                controller.getAverage(criteria) == 3;
     }
 
     @Test
@@ -21,7 +21,7 @@ public class TestController {
         Controller controller = new Controller();
 
         assert
-                controller.getStandardDevOfRubric(criteria) == 1.2909944487358056;
+                controller.getStandardDev(criteria) == 1.2909944487358056;
     }
 
     @Test
@@ -30,7 +30,7 @@ public class TestController {
         Controller controller = new Controller();
 
         assert
-                controller.getMinimumOfRubric(criteria) == criteria.get(0);
+                controller.getMinimum(criteria) == criteria.get(0);
     }
 
     @Test
@@ -39,7 +39,7 @@ public class TestController {
         Controller controller = new Controller();
 
         assert
-                controller.getMaxOfRubric(criteria) == criteria.get(3);
+                controller.getMax(criteria) == criteria.get(3);
     }
 
 

@@ -1,8 +1,6 @@
 package main;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Scanner;
 
 public class Controller {
@@ -25,6 +23,7 @@ public class Controller {
                 case 5 -> listAllTopics();
                 case 6 -> getRubricsByName();
                 case 7 -> studentRubricSummary();
+                case 8 -> getSummaryOfCriteria();
             }
 
             displayMenu();
@@ -44,6 +43,7 @@ public class Controller {
         System.out.println("5. Get List of Topics");
         System.out.println("6. Get Rubrics by Name");
         System.out.println("7. Get Summary of Student Rubric");
+        System.out.println("8. Get Summary of Criteria");
     }
 
     public void createTopic() {
@@ -236,10 +236,10 @@ public class Controller {
 
                         ArrayList<Criteria> criteria = rubric.getCriteria();
 
-                        int average = getAverageOfRubric(criteria);
-                        double stdDev = getStandardDevOfRubric(criteria);
-                        Criteria minimumCriteria = getMinimumOfRubric(criteria);
-                        Criteria maxCriteria = getMaxOfRubric(criteria);
+                        int average = getAverage(criteria);
+                        double stdDev = getStandardDev(criteria);
+                        Criteria minimumCriteria = getMinimum(criteria);
+                        Criteria maxCriteria = getMax(criteria);
 
                         System.out.println("Student Summary: " + studentName);
                         System.out.println("Average: " + average);
@@ -261,7 +261,7 @@ public class Controller {
         }
     }
 
-    public int getAverageOfRubric(ArrayList<Criteria> criteria) {
+    public int getAverage(ArrayList<Criteria> criteria) {
 
         double sum = 0;
 
@@ -274,7 +274,7 @@ public class Controller {
         return (int) Math.ceil(average);
     }
 
-    public double getStandardDevOfRubric(ArrayList<Criteria> criteria) {
+    public double getStandardDev(ArrayList<Criteria> criteria) {
 
         double mean;
         double sum = 0;
@@ -297,7 +297,7 @@ public class Controller {
         return Math.sqrt(mean);
     }
 
-    public Criteria getMinimumOfRubric(ArrayList<Criteria> criterion) {
+    public Criteria getMinimum(ArrayList<Criteria> criterion) {
         int minimum = criterion.get(0).getScore();
         Criteria criteria = criterion.get(0);
 
@@ -312,7 +312,7 @@ public class Controller {
         return criteria;
     }
 
-    public Criteria getMaxOfRubric(ArrayList<Criteria> criterion) {
+    public Criteria getMax(ArrayList<Criteria> criterion) {
         int max = criterion.get(0).getScore();
         Criteria criteria = criterion.get(0);
 
@@ -325,5 +325,51 @@ public class Controller {
         }
 
         return criteria;
+    }
+
+    public void getSummaryOfCriteria() {
+        System.out.println("Please enter topic name");
+        String topicName = scan.next();
+
+        ArrayList<Criteria> criteriaList = new ArrayList<>();
+
+        String criteriaName = null;
+
+        boolean found = false;
+
+        for (Topic topic : topics) {
+            if (topic.getTopicName().equalsIgnoreCase(topicName)) {
+                found = true;
+
+                System.out.println("Please enter criteria name");
+                criteriaName = scan.next();
+
+                for (Rubric rubric : topic.getRubrics()) {
+                   for(Criteria c: rubric.getCriteria()) {
+                       if(c.getCriteriaName().equalsIgnoreCase(criteriaName)) {
+                           criteriaList.add(c);
+                       }
+                   }
+                }
+                break;
+            }
+        }
+
+        int average = getAverage(criteriaList);
+        double stdDev = getStandardDev(criteriaList);
+        Criteria minimumCriteria = getMinimum(criteriaList);
+        Criteria maxCriteria = getMax(criteriaList);
+
+        System.out.println("Criteria Summary: " + criteriaName);
+        System.out.println("Average: " + average);
+        System.out.println("Standard Deviation: " + stdDev);
+        System.out.println("Minimum Score: " + minimumCriteria.getCriteriaName()
+                + ", " + minimumCriteria.getScore());
+        System.out.println("Maximum Score: " + maxCriteria.getCriteriaName()
+                + ", " + maxCriteria.getScore());
+
+        if(!found) {
+            System.out.println("No topic was found \n");
+        }
     }
 }
