@@ -2,6 +2,7 @@ package main;
 
 import java.util.ArrayList;
 
+// rubric class that has a student's name and list of criteria
 public class Rubric {
 
     private String studentName;

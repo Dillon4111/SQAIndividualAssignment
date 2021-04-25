@@ -1,5 +1,6 @@
 package main;
 
+// criteria class that has a name and score
 public class Criteria {
 
     private String criteriaName;

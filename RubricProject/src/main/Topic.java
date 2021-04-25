@@ -2,6 +2,7 @@ package main;
 
 import java.util.ArrayList;
 
+// topic class that has a name a list of rubrics
 public class Topic {
 
     private String topicName;

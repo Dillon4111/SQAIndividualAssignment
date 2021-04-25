@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+// test suite that checks if criteria score calculations are accurate
 public class TestController {
 
     @Test
@@ -42,7 +43,7 @@ public class TestController {
                 controller.getMax(criteria) == criteria.get(3);
     }
 
-
+    // this is a way of removing duplicate code for testing
     public ArrayList<Criteria> getCriteriaList() {
         Criteria c1 = new Criteria("A", 1);
         Criteria c2 = new Criteria("B", 2);

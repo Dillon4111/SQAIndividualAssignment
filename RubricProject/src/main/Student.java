@@ -2,6 +2,7 @@ package main;
 
 import java.util.ArrayList;
 
+// student class that has name and list of topics
 public class Student {
 
     private String studentName;
