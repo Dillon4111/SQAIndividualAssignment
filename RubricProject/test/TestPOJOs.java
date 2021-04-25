@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+// simple test suite to make sure all POJOs are working correctly
 public class TestPOJOs {
 
     @Test
